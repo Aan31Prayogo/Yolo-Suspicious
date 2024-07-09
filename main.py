@@ -10,7 +10,7 @@ import torch                     #library for loading YOLOv5 model
 import RPi.GPIO as GPIO            #library GPIO
 
 # #deklarasi variabel GPIO
-relay=10
+relay=3
 
 #Deklarasi pin GPIO pada raspberry
 GPIO.setwarnings(False)
