@@ -20,6 +20,7 @@ GPIO.output(relay,0)
 
 #path untuk save foto
 PATH_CAPTURE = os.getcwd() + "/capture/"
+PATH_MODEL = os.getcwd() + "/best.pt"
 
 #deklarasi font untuk library opencv
 font = cv2.FONT_HERSHEY_SIMPLEX
