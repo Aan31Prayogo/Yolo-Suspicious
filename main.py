@@ -35,7 +35,7 @@ CAMERA_WIDTH = 240
 CAMERA_HEIGHT = 240
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='path_to_your_model.pt', force_reload=True)
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL, force_reload=True)
 
 #BOT TELEGRAM
 config_file_path = os.getcwd() + '/config.json'
