@@ -31,7 +31,7 @@ red_color = (0, 0, 255)
 thickness = 2
 
 #ukuran display camera
-CAMERA_WIDTH = 240
+CAMERA_WIDTH = 320
 CAMERA_HEIGHT = 240
 
 # Load YOLOv5 model
@@ -104,9 +104,8 @@ def open_camera():
             prev_frame_time = new_frame_time
             fps = f"{fps:.2f}"
             
-            # Run YOLOv5 inference
-            results = model(frame)
-            results.render()  # render detections on frame
+            results = model(frame, size=320)
+            results.render()
 
             cv2.putText(frame, "fps:", (5, 20), font, 0.7, green_color, 2)
             cv2.putText(frame, fps, (50, 20), font, 0.7, green_color, 2)
