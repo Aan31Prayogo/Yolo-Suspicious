@@ -102,7 +102,7 @@ def open_camera():
             new_frame_time = time.time()
             fps = 1/(new_frame_time - prev_frame_time)
             prev_frame_time = new_frame_time
-            fps = str(float(fps))
+            fps = f"{fps:.2f}"
             
             # Run YOLOv5 inference
             results = model(frame)
