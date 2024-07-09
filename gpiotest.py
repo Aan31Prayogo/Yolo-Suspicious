@@ -12,6 +12,8 @@ GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
 
 while True:
     GPIO.output(relay,0)
+    print("relay on")
     time.sleep(3)
     GPIO.output(relay,1)
+    print("relay off")
     time.sleep(3)
