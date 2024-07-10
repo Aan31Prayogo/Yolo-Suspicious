@@ -1,4 +1,3 @@
-#import library dan file yang dibutuhkan
 import time                      #library pewaktu
 import cv2                       #library opencv
 import threading                 #library multithreading
@@ -7,6 +6,9 @@ import requests                  #library untuk http method
 from datetime import datetime    #library date and time
 import json                      #library json object
 import torch                     #library for loading YOLOv5 model
+import pathlib
+from pathlib import Path
+pathlib.PosixPath = pathlib.WindowsPath
 # import RPi.GPIO as GPIO            #library GPIO
 
 # # #deklarasi variabel GPIO
@@ -19,8 +21,8 @@ import torch                     #library for loading YOLOv5 model
 # GPIO.output(relay,0)
 
 #path untuk save foto
-PATH_CAPTURE = os.getcwd() + "/capture/"
-PATH_MODEL = os.getcwd() + "/model/"
+PATH_CAPTURE = os.path.join(os.getcwd(), "capture")
+PATH_MODEL = os.path.join(os.getcwd(), "model")
 
 #deklarasi font untuk library opencv
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -31,11 +33,11 @@ red_color = (0, 0, 255)
 thickness = 2
 
 #ukuran display camera
-CAMERA_WIDTH = 240
-CAMERA_HEIGHT = 240
+CAMERA_WIDTH = 320
+CAMERA_HEIGHT = 320
 
 #BOT TELEGRAM & MODEL CONFIG
-config_file_path = os.getcwd() + '/config.json'
+config_file_path = os.path.join(os.getcwd(), 'config.json')
 with open(config_file_path, 'r') as file:
     config_data = json.load(file)
     
@@ -44,7 +46,7 @@ CHAT_ID = config_data.get('CHAT_ID')
 MODEL = config_data.get('MODEL')
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=os.path.join(PATH_MODEL, MODEL), force_reload=True)
 
 
 def start_send_image_to_telegram(file_img):
@@ -53,7 +55,7 @@ def start_send_image_to_telegram(file_img):
 
 def send_image_to_telegram(file_img):    
     try:
-        image = open(PATH_CAPTURE + file_img, 'rb')
+        image = open(os.path.join(PATH_CAPTURE, file_img), 'rb')
         for id__ in CHAT_ID:
             url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto?chat_id={id__}"
             resp = requests.get(url, files={'photo': image}) 
@@ -99,7 +101,7 @@ def open_camera():
                 print('failed to open camera')
                 break
             
-            frame = cv2.resize(frame, (320, 240))
+            frame = cv2.resize(frame, (320, 320))
             new_frame_time = time.time()
             fps = 1/(new_frame_time - prev_frame_time)
             prev_frame_time = new_frame_time
@@ -150,7 +152,7 @@ def capture_camera():
         dt_string = str(now.strftime("%d%m%Y_%H%M%S"))    # formating waktu
         pictName = dt_string + '.jpg'
         # frame = cv2.putText(frame, dt_string, (10, 200), font, 1, green_color, 2)
-        cv2.imwrite(PATH_CAPTURE + pictName, frame)  # menyimpan foto di folder capture
+        cv2.imwrite(os.path.join(PATH_CAPTURE, pictName), frame)  # menyimpan foto di folder capture
         
         print(f'Capture image with name {pictName}')
         start_send_image_to_telegram(pictName)
