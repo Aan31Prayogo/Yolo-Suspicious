@@ -31,8 +31,8 @@ red_color = (0, 0, 255)
 thickness = 2
 
 #ukuran display camera
-CAMERA_WIDTH = 240
-CAMERA_HEIGHT = 240
+CAMERA_WIDTH = 320
+CAMERA_HEIGHT = 320
 
 #BOT TELEGRAM & MODEL CONFIG
 config_file_path = os.getcwd() + '/config.json'
@@ -44,7 +44,7 @@ CHAT_ID = config_data.get('CHAT_ID')
 MODEL = config_data.get('MODEL')
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True).half()
 
 
 def start_send_image_to_telegram(file_img):
@@ -108,8 +108,11 @@ def open_camera():
             fps = f"{fps:.2f}"
             
             results = model(frame, size=320)
-            #results = model(frame)
-            results.render()
+            for *xyxy, conf, cls in results.xyxy[0]:
+                if conf > 0.5:
+                    label = f'{results.names[int(cls)]} {conf:.2f}'
+                    plot_one_box(xyxy, frame, label=label, color=green_color, line_thickness=thickness)
+
 
             cv2.putText(frame, "fps:", (5, 20), font, 0.7, green_color, 2)
             cv2.putText(frame, fps, (50, 20), font, 0.7, green_color, 2)
@@ -127,6 +130,18 @@ def open_camera():
         cv2.destroyAllWindows()
     except Exception as e:
         print(f"failed to open camera with error {e}")
+
+def plot_one_box(xyxy, img, color=(128, 128, 128), label=None, line_thickness=3):
+    c1, c2 = (int(xyxy[0]), int(xyxy[1])), (int(xyxy[2]), int(xyxy[3]))
+    cv2.rectangle(img, c1, c2, color, thickness=line_thickness, lineType=cv2.LINE_AA)
+    if label:
+        font_scale = 0.5
+        font_thickness = 1
+        t_size = cv2.getTextSize(label, font, font_scale, font_thickness)[0]
+        c2 = c1[0] + t_size[0], c1[1] - t_size[1] - 3
+        cv2.rectangle(img, c1, c2, color, -1, cv2.LINE_AA)
+        cv2.putText(img, label, (c1[0], c1[1] - 2), font, font_scale, [225, 255, 255], font_thickness, lineType=cv2.LINE_AA)
+
 
 def capture_camera():
     # fungsi untuk memfoto dengan kamera
