@@ -44,7 +44,7 @@ CHAT_ID = config_data.get('CHAT_ID')
 MODEL = config_data.get('MODEL')
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True,  source='local')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
 
 
 def start_send_image_to_telegram(file_img):
