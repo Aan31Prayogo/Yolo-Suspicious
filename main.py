@@ -20,7 +20,7 @@ GPIO.output(relay,0)
 
 #path untuk save foto
 PATH_CAPTURE = os.getcwd() + "/capture/"
-PATH_MODEL = os.getcwd() + "/yolov5n.pt"
+PATH_MODEL = os.getcwd() + "/model/"
 
 #deklarasi font untuk library opencv
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -34,15 +34,18 @@ thickness = 2
 CAMERA_WIDTH = 320
 CAMERA_HEIGHT = 240
 
-# Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL, force_reload=True)
-
-#BOT TELEGRAM
+#BOT TELEGRAM & MODEL CONFIG
 config_file_path = os.getcwd() + '/config.json'
 with open(config_file_path, 'r') as file:
     config_data = json.load(file)
+    
 BOT_TOKEN = config_data.get('BOT_TOKEN')
 CHAT_ID = config_data.get('CHAT_ID')
+MODEL = config_data.get('MODEL')
+
+# Load YOLOv5 model
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
+
 
 def start_send_image_to_telegram(file_img):
     t4 = threading.Thread(target=send_image_to_telegram, args=(file_img,))
