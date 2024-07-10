@@ -31,8 +31,8 @@ red_color = (0, 0, 255)
 thickness = 2
 
 #ukuran display camera
-CAMERA_WIDTH = 320
-CAMERA_HEIGHT = 320
+CAMERA_WIDTH = 240
+CAMERA_HEIGHT = 240
 
 #BOT TELEGRAM & MODEL CONFIG
 config_file_path = os.getcwd() + '/config.json'
@@ -44,7 +44,7 @@ CHAT_ID = config_data.get('CHAT_ID')
 MODEL = config_data.get('MODEL')
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True).half()
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
 
 
 def start_send_image_to_telegram(file_img):
@@ -111,7 +111,7 @@ def open_camera():
             for *xyxy, conf, cls in results.xyxy[0]:
                 if conf > 0.5:
                     label = f'{results.names[int(cls)]} {conf:.2f}'
-                    plot_one_box(xyxy, frame, label=label, color=green_color, line_thickness=thickness)
+                    plot_one_box(xyxy, frame, label=label, color=red_color, line_thickness=thickness)
 
 
             cv2.putText(frame, "fps:", (5, 20), font, 0.7, green_color, 2)
