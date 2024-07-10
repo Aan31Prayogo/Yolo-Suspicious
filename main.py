@@ -107,8 +107,8 @@ def open_camera():
             prev_frame_time = new_frame_time
             fps = f"{fps:.2f}"
             
-            #results = model(frame, size=320)
-            results = model(frame)
+            results = model(frame, size=320)
+            #results = model(frame)
             results.render()
 
             cv2.putText(frame, "fps:", (5, 20), font, 0.7, green_color, 2)
