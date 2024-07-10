@@ -44,7 +44,7 @@ CHAT_ID = config_data.get('CHAT_ID')
 MODEL = config_data.get('MODEL')
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True,  source='local')
 
 
 def start_send_image_to_telegram(file_img):
@@ -91,17 +91,15 @@ def open_camera():
         print("start open camera")
         # membuat objek kamera
         cap = cv2.VideoCapture(0)
-        cap.set(3, CAMERA_WIDTH)             # set resolusi (width) kamera
-        cap.set(4, CAMERA_HEIGHT)            # set resolusi (height) kamera
-
         # looping pembacaan kamera
         while True:
             ret, frame = cap.read()
-            
+
             if not ret:  # jika gagal membaca webcam 
                 print('failed to open camera')
                 break
-
+            
+            frame = cv2.resize(frame, (320, 240))
             new_frame_time = time.time()
             fps = 1/(new_frame_time - prev_frame_time)
             prev_frame_time = new_frame_time
@@ -109,7 +107,7 @@ def open_camera():
             
             results = model(frame, size=320)
             for *xyxy, conf, cls in results.xyxy[0]:
-                if conf > 0.7:
+                if conf > 0.6:
                     label = f'{results.names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, frame, label=label, color=red_color, line_thickness=thickness)
 
