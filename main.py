@@ -7,16 +7,30 @@ import requests                  #library untuk http method
 from datetime import datetime    #library date and time
 import json                      #library json object
 import torch                     #library for loading YOLOv5 model
-# import RPi.GPIO as GPIO            #library GPIO
+import platform
 
-# # #deklarasi variabel GPIO
-# relay=3
+CURRENT_OS = platform.system()
 
-# #Deklarasi pin GPIO pada raspberry
-# GPIO.setwarnings(False)
-# GPIO.setmode(GPIO.BOARD)
-# GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
-# GPIO.output(relay,0)
+isLinux = False
+if CURRENT_OS == 'Linux':
+    isLinux = True
+
+
+if isLinux:    
+    import RPi.GPIO as GPIO            #library GPIO
+
+    # #deklarasi variabel GPIO
+    relay=3
+
+    #Deklarasi pin GPIO pada raspberry
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
+    GPIO.output(relay,0)
+else:
+    import pathlib
+    from pathlib import Path
+    pathlib.PosixPath = pathlib.WindowsPath
 
 #path untuk save foto
 PATH_CAPTURE = os.getcwd() + "/capture/"
