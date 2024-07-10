@@ -31,7 +31,7 @@ red_color = (0, 0, 255)
 thickness = 2
 
 #ukuran display camera
-CAMERA_WIDTH = 320
+CAMERA_WIDTH = 240
 CAMERA_HEIGHT = 240
 
 #BOT TELEGRAM & MODEL CONFIG
