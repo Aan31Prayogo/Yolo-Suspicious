@@ -65,7 +65,8 @@ def start_send_image_to_telegram(file_img):
     t4 = threading.Thread(target=send_image_to_telegram, args=(file_img,))
     t4.start()
 
-def send_image_to_telegram(file_img):    
+def send_image_to_telegram(file_img):   
+    global captureFlag
     try:
         image = open(PATH_CAPTURE + file_img, 'rb')
         for id__ in CHAT_ID:
@@ -73,6 +74,8 @@ def send_image_to_telegram(file_img):
             resp = requests.get(url, files={'photo': image}) 
             if int(resp.status_code) == 200:
                 print('success send to telegram')
+        
+        captureFlag = True
 
     except Exception as e:
         print(f'[FAILED] send image to telegram with error = {e}')
@@ -97,9 +100,11 @@ def set_relay_active():
 
 def open_camera():
     global frame
+    global captureFlag
     # deklarasi variabel
     prev_frame_time = 0
     new_frame_time = 0
+    captureFlag = True
     
     try:
         print("start open camera")
@@ -124,6 +129,9 @@ def open_camera():
                 if conf > 0.6:
                     label = f'{results.names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, frame, label=label, color=red_color, line_thickness=thickness)
+                    if captureFlag:
+                        captureFlag = False
+                        capture_camera()
 
 
             cv2.putText(frame, "fps:", (5, 20), font, 0.7, green_color, 2)
