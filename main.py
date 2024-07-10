@@ -109,7 +109,7 @@ def open_camera():
             
             results = model(frame, size=320)
             for *xyxy, conf, cls in results.xyxy[0]:
-                if conf > 0.5:
+                if conf > 0.7:
                     label = f'{results.names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, frame, label=label, color=red_color, line_thickness=thickness)
 
