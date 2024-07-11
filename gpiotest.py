@@ -26,5 +26,3 @@ try:
         time.sleep(3)
 except KeyboardInterrupt:
     pass
-finally:
-    cleanup_gpio()
