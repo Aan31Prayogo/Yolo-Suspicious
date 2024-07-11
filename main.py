@@ -26,7 +26,7 @@ if isLinux:
     GPIO.setmode(GPIO.BOARD)
     relay=7
     GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
-    GPIO.output(relay,1)            
+    GPIO.output(relay, GPIO.HIGH)  # kembalikan keadaan relay
 else:
     import pathlib
     from pathlib import Path
@@ -75,7 +75,7 @@ def send_image_to_telegram(file_img):
             if int(resp.status_code) == 200:
                 print('success send to telegram')
         
-        captureFlag = True
+        #captureFlag = True
 
     except Exception as e:
         print(f'[FAILED] send image to telegram with error = {e}')
@@ -88,9 +88,11 @@ def start_set_relay_active():
 def set_relay_active():
     global captureFlag
     try:
-        GPIO.output(relay, GPIO.HIGH)  # aktif low untuk relay
+        GPIO.output(relay, GPIO.LOW)  # aktif low untuk relay
+        print("Pompa ON")
         time.sleep(30)   # aktifkan relay selama 30 detik
-        GPIO.output(relay, GPIO.LOW)  # kembalikan keadaan relay
+        GPIO.output(relay, GPIO.HIGH)  # kembalikan keadaan relay
+        print("Pompa OFF")
         captureFlag = True
     except Exception as e:
         print("error set relay with error =>" + str(e))
