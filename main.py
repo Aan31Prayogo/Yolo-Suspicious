@@ -56,6 +56,7 @@ with open(config_file_path, 'r') as file:
 BOT_TOKEN = config_data.get('BOT_TOKEN')
 CHAT_ID = config_data.get('CHAT_ID')
 MODEL = config_data.get('MODEL')
+CONFIDENCE = config_data.get('CONFIDENCE')
 
 # Load YOLOv5 model
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=PATH_MODEL + MODEL, force_reload=True)
@@ -130,7 +131,7 @@ def open_camera():
             
             results = model(frame, size=320)
             for *xyxy, conf, cls in results.xyxy[0]:
-                if conf > 0.6:
+                if conf >= CONFIDENCE:
                     label = f'{results.names[int(cls)]} {conf:.2f}'
                     plot_one_box(xyxy, frame, label=label, color=red_color, line_thickness=thickness)
                     if captureFlag:

@@ -1,5 +1,6 @@
 {
     "BOT_TOKEN" : "7315653262:AAEVz9YQ732NLGcCjRGLGpXQ-FkWj0TtSQ4",
     "CHAT_ID" : [672670660],
-    "MODEL" : "yolov5n_320.pt"
+    "MODEL" : "yolov5n_320.pt",
+    "CONFIDENCE" : 0.8
 }
