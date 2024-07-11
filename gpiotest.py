@@ -17,6 +17,9 @@ try:
         GPIO.output(relay,GPIO.HIGH)
         print("relay on")
         time.sleep(3)
+except KeyboardInterrupt:
+    GPIO.output(relay,GPIO.LOW)
+    GPIO.cleanup()
 finally:
     GPIO.output(relay,GPIO.LOW)
     GPIO.cleanup()
