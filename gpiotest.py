@@ -26,3 +26,6 @@ try:
         time.sleep(3)
 except KeyboardInterrupt:
     pass
+
+# Additional cleanup in case of normal program termination
+cleanup_gpio()
