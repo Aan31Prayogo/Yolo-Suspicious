@@ -1,11 +1,20 @@
 import RPi.GPIO as GPIO  # library GPIO
 import time
+import atexit
 
 # Deklarasi pin GPIO pada raspberry
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 relay = 7
 GPIO.setup(relay, GPIO.OUT)  # RELAY Aktif low
+
+# Function to cleanup GPIO and turn off relay
+def cleanup_gpio():
+    GPIO.output(relay, GPIO.LOW)
+    GPIO.cleanup()
+
+# Register the cleanup function to be called on exit
+atexit.register(cleanup_gpio)
 
 try:
     while True:
@@ -16,6 +25,6 @@ try:
         print("relay on")
         time.sleep(3)
 except KeyboardInterrupt:
-    GPIO.output(relay, GPIO.LOW)
+    pass
 finally:
-    GPIO.cleanup()
+    cleanup_gpio()
