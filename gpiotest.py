@@ -2,11 +2,11 @@ import RPi.GPIO as GPIO            #library GPIO
 import time
 
 # #deklarasi variabel GPIO
-relay=3
 
 #Deklarasi pin GPIO pada raspberry
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
+relay=3
 GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
 GPIO.output(relay,0)
 
