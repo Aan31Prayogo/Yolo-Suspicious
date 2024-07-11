@@ -20,11 +20,11 @@ if isLinux:
     import RPi.GPIO as GPIO            #library GPIO
 
     # #deklarasi variabel GPIO
-    relay=3
 
     #Deklarasi pin GPIO pada raspberry
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD)
+    relay=3
     GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
     GPIO.output(relay,0)
 else:
@@ -86,10 +86,12 @@ def start_set_relay_active():
     t1.start()
     
 def set_relay_active():
+    global captureFlag
     try:
         GPIO.output(relay, 1)  # aktif low untuk relay
         time.sleep(30)   # aktifkan relay selama 30 detik
         GPIO.output(relay, 0)  # kembalikan keadaan relay
+        captureFlag = True
     except Exception as e:
         print("error set relay with error =>" + str(e))
         
@@ -176,6 +178,8 @@ def capture_camera():
         
         print(f'Capture image with name {pictName}')
         start_send_image_to_telegram(pictName)
+        if isLinux:
+            start_set_relay_active()
     except Exception as e:
         print(f'[FAILED] to capture camera with error {e}')
 
