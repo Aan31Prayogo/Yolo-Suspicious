@@ -14,7 +14,7 @@ try:
         GPIO.output(relay,GPIO.LOW)
         print("relay off")
         time.sleep(3)
-        GPIO.output(relay,GPIO.LOW)
+        GPIO.output(relay,GPIO.HIGH)
         print("relay on")
         time.sleep(3)
 finally:
