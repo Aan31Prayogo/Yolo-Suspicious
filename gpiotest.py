@@ -6,7 +6,7 @@ import time
 #Deklarasi pin GPIO pada raspberry
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
-relay=3
+relay=7
 GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
 GPIO.output(relay,0)
 
