@@ -26,7 +26,7 @@ if isLinux:
     GPIO.setmode(GPIO.BOARD)
     relay=7
     GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
-    GPIO.output(relay,0)
+    GPIO.output(relay,1)            
 else:
     import pathlib
     from pathlib import Path

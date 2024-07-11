@@ -19,10 +19,10 @@ atexit.register(cleanup_gpio)
 try:
     while True:
         GPIO.output(relay, GPIO.LOW)
-        print("relay off")
+        print("pompa on")
         time.sleep(3)
         GPIO.output(relay, GPIO.HIGH)
-        print("relay on")
+        print("pompa off")
         time.sleep(3)
 except KeyboardInterrupt:
     pass
