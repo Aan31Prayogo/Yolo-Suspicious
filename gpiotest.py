@@ -18,4 +18,5 @@ try:
         print("relay on")
         time.sleep(3)
 finally:
+    GPIO.output(relay,GPIO.LOW)
     GPIO.cleanup()

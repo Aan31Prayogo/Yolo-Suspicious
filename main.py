@@ -24,7 +24,7 @@ if isLinux:
     #Deklarasi pin GPIO pada raspberry
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD)
-    relay=3
+    relay=7
     GPIO.setup(relay, GPIO.OUT)        #RELAY Aktif low
     GPIO.output(relay,0)
 else:
@@ -88,9 +88,9 @@ def start_set_relay_active():
 def set_relay_active():
     global captureFlag
     try:
-        GPIO.output(relay, 1)  # aktif low untuk relay
+        GPIO.output(relay, GPIO.HIGH)  # aktif low untuk relay
         time.sleep(30)   # aktifkan relay selama 30 detik
-        GPIO.output(relay, 0)  # kembalikan keadaan relay
+        GPIO.output(relay, GPIO.LOW)  # kembalikan keadaan relay
         captureFlag = True
     except Exception as e:
         print("error set relay with error =>" + str(e))
